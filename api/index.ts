@@ -1,6 +1,4 @@
 import { Hono } from "hono";
-import { cors } from "hono/cors";
-import { logger } from "hono/logger";
 import { swaggerUI } from "@hono/swagger-ui";
 import { handle } from "hono/vercel";
 import auth from "../src/route/auth.route";
@@ -18,15 +16,23 @@ validateEnv();
 
 const app = new Hono();
 
-// Middleware
-app.use("*", logger());
-app.use(
-  "*",
-  cors({
-    origin: env.ALLOWED_ORIGINS,
-    credentials: true,
-  })
-);
+// Manual CORS middleware (Vercel compatible)
+app.use("*", async (c, next) => {
+  // Add CORS headers
+  c.header("Access-Control-Allow-Origin", "*");
+  c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  c.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // Handle preflight
+  if (c.req.method === "OPTIONS") {
+    return c.text("", 200);
+  }
+
+  // Simple logging
+  console.log(`${c.req.method} ${c.req.url} - ${new Date().toISOString()}`);
+
+  await next();
+});
 
 // Health check with environment status
 app.get("/", (c) => {
