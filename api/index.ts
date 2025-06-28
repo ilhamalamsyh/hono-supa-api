@@ -8,5 +8,5 @@ export const POST = handle(app);
 export const PUT = handle(app);
 export const DELETE = handle(app);
 
-// Export for Vercel Edge Function
-export default app;
+// Export default function for Vercel
+export default handle(app);
