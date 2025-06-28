@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  hono-api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    command: npm run dev
+    restart: unless-stopped
+
+  hono-api-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    restart: unless-stopped

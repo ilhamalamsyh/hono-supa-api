@@ -1,0 +1,20 @@
+# Build stage
+FROM node:23 AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm install
+
+COPY . .
+
+# Runtime stage (slim image)
+FROM node:23-slim
+
+WORKDIR /app
+
+COPY --from=builder /app ./
+
+EXPOSE 8080
+
+CMD ["npm", "run", "dev"] 
