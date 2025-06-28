@@ -1,39 +1,34 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
+import { cors } from "hono/cors";
+import { logger } from "hono/logger";
+import { swaggerUI } from "@hono/swagger-ui";
+import auth from "../src/route/auth.route";
+import user from "../src/route/user.route";
+import { swaggerConfig } from "../src/config/swagger";
+
+export const runtime = "edge";
 
 const app = new Hono();
 
+// Middleware
+app.use("*", logger());
+app.use("*", cors());
+
+// Swagger UI
+app.get("/docs", swaggerUI({ url: "/api-docs" }));
+app.get("/api-docs", (c) => c.json(swaggerConfig));
+
 // Routes
-app.get("/", (c) => {
-  return c.json({
-    message: "Hello Hono!",
-    timestamp: new Date().toISOString(),
-  });
-});
+app.route("/auth", auth);
+app.route("/user", user);
 
-app.get("/api/hello", (c) => {
-  return c.json({
-    message: "Hello from API!",
-    timestamp: new Date().toISOString(),
-  });
-});
+// Health check
+app.get("/", (c) =>
+  c.json({ message: "API is running - Hono JS Chat API yuhuu" })
+);
 
-// Simple user profile (without any middleware)
-app.get("/user/profile", (c) => {
-  return c.json({
-    message: "User profile endpoint",
-    timestamp: new Date().toISOString(),
-  });
-});
-
-// Handle favicon.ico
-app.get("/favicon.ico", (c) => {
-  return new Response("", { status: 204 });
-});
-
-// Export for Vercel
 export const GET = handle(app);
 export const POST = handle(app);
 export const PUT = handle(app);
 export const DELETE = handle(app);
-export default handle(app);
