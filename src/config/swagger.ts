@@ -45,7 +45,7 @@ export const swaggerConfig = {
         },
       },
     },
-    "/auth/register": {
+    "/api/auth/register": {
       post: {
         summary: "Register a new user",
         description: "Create a new user account",
@@ -144,7 +144,7 @@ export const swaggerConfig = {
         },
       },
     },
-    "/auth/login": {
+    "/api/auth/login": {
       post: {
         summary: "Login user",
         description: "Authenticate user and return JWT token",
@@ -237,7 +237,7 @@ export const swaggerConfig = {
         },
       },
     },
-    "/user/profile": {
+    "/api/user/profile": {
       get: {
         summary: "Get user profile",
         description: "Retrieve the authenticated user's profile information",

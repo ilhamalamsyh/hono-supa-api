@@ -19,9 +19,13 @@ app.use("*", cors());
 app.get("/docs", swaggerUI({ url: "/api-docs" }));
 app.get("/api-docs", (c) => c.json(swaggerConfig));
 
-// Routes
-app.route("/auth", auth);
-app.route("/user", user);
+// API routes with /api prefix
+const api = new Hono();
+api.route("/auth", auth);
+api.route("/user", user);
+
+// Mount API routes under /api
+app.route("/api", api);
 
 // Health check
 app.get("/", (c) =>
