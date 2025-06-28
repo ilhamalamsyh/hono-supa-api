@@ -7,6 +7,8 @@ import user from "./route/user.route";
 import { testSupabaseConnection } from "./config/supabase";
 import { swaggerConfig } from "./config/swagger";
 import { env } from "./config/env";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const app = new Hono();
 
@@ -35,8 +37,19 @@ api.route("/user", user);
 // Mount API routes under /api
 app.route("/api", api);
 
+// Serve landing page
+app.get("/", async (c) => {
+  try {
+    const htmlPath = join(process.cwd(), "public", "index.html");
+    const html = readFileSync(htmlPath, "utf-8");
+    return c.html(html);
+  } catch (error) {
+    return c.json({ message: "API is running - Hono JS Chat API yuhuu" });
+  }
+});
+
 // Health check
-app.get("/", (c) =>
+app.get("/health", (c) =>
   c.json({ message: "API is running - Hono JS Chat API yuhuu" })
 );
 
