@@ -5,8 +5,9 @@ const app = new Hono();
 
 app.get("/", (c) => {
   return c.json({
-    message: "Test API working!",
+    message: "Test endpoint - Fast response",
     timestamp: new Date().toISOString(),
+    coldStart: true,
   });
 });
 

@@ -4,15 +4,7 @@ import { handle } from "hono/vercel";
 import auth from "../src/route/auth.route";
 import user from "../src/route/user.route";
 import { swaggerConfig } from "../src/config/swagger";
-import {
-  env,
-  validateEnv,
-  isProduction,
-  isDevelopment,
-} from "../src/config/env";
-
-// Validate environment on startup
-validateEnv();
+import { env, isProduction, isDevelopment } from "../src/config/env";
 
 const app = new Hono();
 
