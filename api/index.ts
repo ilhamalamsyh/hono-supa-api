@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { swaggerUI } from "@hono/swagger-ui";
+import { handle } from "hono/vercel";
 import auth from "../src/route/auth.route";
 import user from "../src/route/user.route";
 import { swaggerConfig } from "../src/config/swagger";
@@ -54,4 +55,5 @@ app.onError((err, c) => {
   );
 });
 
-export default app;
+// Export as function for Vercel
+export default handle(app);
