@@ -40,7 +40,15 @@ A modern chat API built with Hono, TypeScript, and Supabase.
    SUPABASE_URL=your_supabase_url
    SUPABASE_ANON_KEY=your_supabase_anon_key
    JWT_SECRET=your_jwt_secret_key
+   ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080,https://yourdomain.com
    ```
+
+   **CORS Configuration:**
+
+   - `ALLOWED_ORIGINS`: Comma-separated list of allowed origins
+   - Default: `["*"]` (allows all origins)
+   - Example: `http://localhost:3000,https://yourdomain.com`
+   - For production: Set specific domains only
 
 4. **Run the development server**
 
@@ -72,18 +80,18 @@ docker-compose down
 
 ## API Endpoints
 
-### Authentication
-
-- `POST /auth/register` - Register a new user
-- `POST /auth/login` - Login user
-
-### User (Protected)
-
-- `GET /user/profile` - Get user profile (requires JWT token)
-
 ### Health
 
 - `GET /` - Health check
+
+### Authentication
+
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+
+### User (Protected)
+
+- `GET /api/user/profile` - Get user profile (requires JWT token)
 
 ## Vercel Deployment
 
@@ -146,13 +154,13 @@ Once deployed, access the interactive API documentation at:
 
 ## Testing Protected Endpoints
 
-1. **Register a user** using `POST /auth/register`
+1. **Register a user** using `POST /api/auth/register`
 2. **Copy the JWT token** from the response
 3. **Use the token** in the Authorization header:
    ```
    Authorization: Bearer your_jwt_token_here
    ```
-4. **Test protected endpoints** like `GET /user/profile`
+4. **Test protected endpoints** like `GET /api/user/profile`
 
 ## Project Structure
 

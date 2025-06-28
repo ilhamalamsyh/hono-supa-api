@@ -6,23 +6,50 @@ import auth from "./route/auth.route";
 import user from "./route/user.route";
 import { testSupabaseConnection } from "./config/supabase";
 import { swaggerConfig } from "./config/swagger";
+import { env } from "./config/env";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const app = new Hono();
 
+// CORS configuration
+const corsOptions = {
+  origin: env.ALLOWED_ORIGINS,
+  allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  credentials: true,
+  maxAge: 86400, // 24 hours
+};
+
 // Middleware
 app.use("*", logger());
-app.use("*", cors());
+app.use("*", cors(corsOptions));
 
 // Swagger UI
 app.get("/docs", swaggerUI({ url: "/api-docs" }));
 app.get("/api-docs", (c) => c.json(swaggerConfig));
 
-// Routes
-app.route("/auth", auth);
-app.route("/user", user);
+// API routes with /api prefix
+const api = new Hono();
+api.route("/auth", auth);
+api.route("/user", user);
+
+// Mount API routes under /api
+app.route("/api", api);
+
+// Serve landing page
+app.get("/", async (c) => {
+  try {
+    const htmlPath = join(process.cwd(), "public", "index.html");
+    const html = readFileSync(htmlPath, "utf-8");
+    return c.html(html);
+  } catch (error) {
+    return c.json({ message: "API is running - Hono JS Chat API yuhuu" });
+  }
+});
 
 // Health check
-app.get("/", (c) =>
+app.get("/health", (c) =>
   c.json({ message: "API is running - Hono JS Chat API yuhuu" })
 );
 

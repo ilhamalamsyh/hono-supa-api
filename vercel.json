@@ -4,18 +4,5 @@
       "source": "/(.*)",
       "destination": "/api"
     }
-  ],
-  "env": {
-    "JWT_SECRET": "@jwt_secret"
-  },
-  "git": {
-    "deploymentEnabled": {
-      "master": true
-    }
-  },
-  "functions": {
-    "api/index.ts": {
-      "runtime": "nodejs23.x"
-    }
-  }
+  ]
 }

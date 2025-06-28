@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hono Chat API - Modern Chat API with JWT & Supabase</title>
+    <meta
+      name="description"
+      content="A modern chat API built with Hono.js, TypeScript, and Supabase. Features JWT authentication, user management, and Swagger documentation."
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Custom Styles -->
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .feature-icon {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <h1 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-comments text-purple-600 mr-2"></i>
+                Hono Chat API
+              </h1>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a
+              href="#features"
+              class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium"
+              >Features</a
+            >
+            <a
+              href="#endpoints"
+              class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium"
+              >API</a
+            >
+            <a
+              href="/docs"
+              class="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors"
+            >
+              <i class="fas fa-book mr-2"></i>Documentation
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">Modern Chat API</h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">
+          A powerful, scalable chat API built with Hono.js, TypeScript, and
+          Supabase. Featuring JWT authentication, real-time capabilities, and
+          comprehensive documentation.
+        </p>
+        <div class="flex justify-center space-x-4">
+          <a
+            href="/docs"
+            class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+          >
+            <i class="fas fa-rocket mr-2"></i>Get Started
+          </a>
+          <a
+            href="#endpoints"
+            class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors"
+          >
+            <i class="fas fa-code mr-2"></i>View API
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-gray-900 mb-4">
+            Why Choose Hono Chat API?
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Built with modern technologies and best practices for scalable,
+            maintainable applications.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="card-hover bg-white p-8 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="text-center mb-6">
+              <i class="fas fa-shield-alt text-4xl feature-icon"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+              JWT Authentication
+            </h3>
+            <p class="text-gray-600 text-center">
+              Secure user authentication with JWT tokens. Register, login, and
+              protect your endpoints with industry-standard security.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="card-hover bg-white p-8 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="text-center mb-6">
+              <i class="fas fa-database text-4xl feature-icon"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+              Supabase Integration
+            </h3>
+            <p class="text-gray-600 text-center">
+              Built on Supabase for reliable PostgreSQL database with real-time
+              capabilities and automatic API generation.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="card-hover bg-white p-8 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="text-center mb-6">
+              <i class="fas fa-book text-4xl feature-icon"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+              Swagger Documentation
+            </h3>
+            <p class="text-gray-600 text-center">
+              Interactive API documentation with Swagger UI. Test endpoints
+              directly from the browser with detailed schemas.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="card-hover bg-white p-8 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="text-center mb-6">
+              <i class="fas fa-rocket text-4xl feature-icon"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+              Vercel Ready
+            </h3>
+            <p class="text-gray-600 text-center">
+              Deploy instantly to Vercel with serverless functions. Optimized
+              for edge runtime with minimal cold starts.
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div
+            class="card-hover bg-white p-8 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="text-center mb-6">
+              <i class="fas fa-docker text-4xl feature-icon"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+              Docker Support
+            </h3>
+            <p class="text-gray-600 text-center">
+              Containerized with Docker for consistent development and
+              production environments. Multi-stage builds for optimization.
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div
+            class="card-hover bg-white p-8 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="text-center mb-6">
+              <i class="fas fa-code text-4xl feature-icon"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4 text-center">
+              TypeScript
+            </h3>
+            <p class="text-gray-600 text-center">
+              Written in TypeScript for better developer experience, type
+              safety, and maintainable codebase.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- API Endpoints Section -->
+    <section id="endpoints" class="py-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-gray-900 mb-4">API Endpoints</h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Clean, RESTful API design with comprehensive authentication and user
+            management.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Authentication Endpoints -->
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <h3
+              class="text-2xl font-semibold text-gray-900 mb-6 flex items-center"
+            >
+              <i class="fas fa-key text-purple-600 mr-3"></i>
+              Authentication
+            </h3>
+            <div class="space-y-4">
+              <div class="border-l-4 border-green-500 pl-4">
+                <div class="flex items-center mb-2">
+                  <span
+                    class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium mr-3"
+                    >POST</span
+                  >
+                  <code class="text-sm font-mono text-gray-800"
+                    >/api/auth/register</code
+                  >
+                </div>
+                <p class="text-gray-600 text-sm">Register a new user account</p>
+              </div>
+              <div class="border-l-4 border-blue-500 pl-4">
+                <div class="flex items-center mb-2">
+                  <span
+                    class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium mr-3"
+                    >POST</span
+                  >
+                  <code class="text-sm font-mono text-gray-800"
+                    >/api/auth/login</code
+                  >
+                </div>
+                <p class="text-gray-600 text-sm">
+                  Authenticate user and get JWT token
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Endpoints -->
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <h3
+              class="text-2xl font-semibold text-gray-900 mb-6 flex items-center"
+            >
+              <i class="fas fa-user text-purple-600 mr-3"></i>
+              User Management
+            </h3>
+            <div class="space-y-4">
+              <div class="border-l-4 border-purple-500 pl-4">
+                <div class="flex items-center mb-2">
+                  <span
+                    class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-medium mr-3"
+                    >GET</span
+                  >
+                  <code class="text-sm font-mono text-gray-800"
+                    >/api/user/profile</code
+                  >
+                </div>
+                <p class="text-gray-600 text-sm">
+                  Get user profile (requires JWT token)
+                </p>
+              </div>
+              <div class="border-l-4 border-gray-500 pl-4">
+                <div class="flex items-center mb-2">
+                  <span
+                    class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-medium mr-3"
+                    >GET</span
+                  >
+                  <code class="text-sm font-mono text-gray-800">/</code>
+                </div>
+                <p class="text-gray-600 text-sm">Health check endpoint</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <a
+            href="/docs"
+            class="bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors inline-flex items-center"
+          >
+            <i class="fas fa-book mr-2"></i>
+            View Full Documentation
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-gray-900 mb-4">
+            Technology Stack
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Built with modern, performant technologies for the best developer
+            experience.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+          <div class="text-center">
+            <div class="bg-gray-100 p-6 rounded-lg mb-4">
+              <i class="fab fa-node-js text-4xl text-green-600"></i>
+            </div>
+            <h4 class="font-semibold text-gray-900">Node.js</h4>
+          </div>
+          <div class="text-center">
+            <div class="bg-gray-100 p-6 rounded-lg mb-4">
+              <i class="fab fa-js text-4xl text-yellow-500"></i>
+            </div>
+            <h4 class="font-semibold text-gray-900">TypeScript</h4>
+          </div>
+          <div class="text-center">
+            <div class="bg-gray-100 p-6 rounded-lg mb-4">
+              <i class="fas fa-bolt text-4xl text-blue-600"></i>
+            </div>
+            <h4 class="font-semibold text-gray-900">Hono.js</h4>
+          </div>
+          <div class="text-center">
+            <div class="bg-gray-100 p-6 rounded-lg mb-4">
+              <i class="fas fa-database text-4xl text-green-700"></i>
+            </div>
+            <h4 class="font-semibold text-gray-900">Supabase</h4>
+          </div>
+          <div class="text-center">
+            <div class="bg-gray-100 p-6 rounded-lg mb-4">
+              <i class="fab fa-docker text-4xl text-blue-500"></i>
+            </div>
+            <h4 class="font-semibold text-gray-900">Docker</h4>
+          </div>
+          <div class="text-center">
+            <div class="bg-gray-100 p-6 rounded-lg mb-4">
+              <i class="fas fa-cloud text-4xl text-black"></i>
+            </div>
+            <h4 class="font-semibold text-gray-900">Vercel</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Hono Chat API</h3>
+            <p class="text-gray-400">
+              A modern, scalable chat API built with cutting-edge technologies
+              for the best developer experience.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="/docs" class="hover:text-white transition-colors"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#features" class="hover:text-white transition-colors"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#endpoints" class="hover:text-white transition-colors"
+                  >API Endpoints</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Connect</h4>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                <i class="fab fa-github text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                <i class="fab fa-twitter text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                <i class="fab fa-linkedin text-xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>
+            &copy; 2024 Hono Chat API. Built with ❤️ using modern web
+            technologies.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Smooth Scrolling Script -->
+    <script>
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Add scroll effect to navigation
+      window.addEventListener("scroll", function () {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 100) {
+          nav.classList.add("bg-white/95", "backdrop-blur-sm");
+        } else {
+          nav.classList.remove("bg-white/95", "backdrop-blur-sm");
+        }
+      });
+    </script>
+  </body>
+</html>
