@@ -4,7 +4,6 @@ import { logger } from "hono/logger";
 import { swaggerUI } from "@hono/swagger-ui";
 import auth from "./route/auth.route";
 import user from "./route/user.route";
-import { serve } from "@hono/node-server";
 import { testSupabaseConnection } from "./config/supabase";
 import { swaggerConfig } from "./config/swagger";
 
@@ -27,25 +26,17 @@ app.get("/", (c) =>
   c.json({ message: "API is running - Hono JS Chat API yuhuu" })
 );
 
-const port = 8080;
-
-// Test Supabase connection before starting server
-testSupabaseConnection().then((isConnected) => {
-  if (!isConnected) {
-    console.error(
-      "Failed to connect to Supabase. Server may not work properly."
-    );
-  }
-
-  serve(
-    {
-      fetch: app.fetch,
-      port,
-    },
-    (info) => {
-      console.log(`Server is running at http://localhost:${info.port}`);
+// Test Supabase connection on startup (only in development)
+if (process.env.NODE_ENV !== "production") {
+  testSupabaseConnection().then((isConnected) => {
+    if (!isConnected) {
+      console.error(
+        "Failed to connect to Supabase. Server may not work properly."
+      );
+    } else {
+      console.log("Successfully connected to Supabase");
     }
-  );
-});
+  });
+}
 
 export default app;

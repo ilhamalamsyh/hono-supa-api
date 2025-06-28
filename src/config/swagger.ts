@@ -14,6 +14,10 @@ export const swaggerConfig = {
       url: "http://localhost:8080",
       description: "Development server",
     },
+    {
+      url: "https://your-project-name.vercel.app",
+      description: "Production server (replace with your Vercel URL)",
+    },
   ],
   paths: {
     "/": {
