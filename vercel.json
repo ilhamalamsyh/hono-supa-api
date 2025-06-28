@@ -5,14 +5,5 @@
       "runtime": "edge"
     }
   },
-  "routes": [{ "src": "/(.*)", "dest": "/api/index.ts" }],
-  "git": {
-    "deploymentEnabled": {
-      "master": true,
-      "preview": true
-    }
-  },
-  "env": {
-    "JWT_SECRET": "@jwt_secret"
-  }
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.ts" }]
 }
