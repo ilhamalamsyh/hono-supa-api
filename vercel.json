@@ -1,9 +1,9 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api"
+  "functions": {
+    "api/index.ts": {
+      "runtime": "vercel-edge"
     }
-  ]
+  },
+  "routes": [{ "src": "/(.*)", "dest": "api/index.ts" }]
 }
