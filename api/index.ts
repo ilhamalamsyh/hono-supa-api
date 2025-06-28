@@ -6,14 +6,24 @@ import { swaggerUI } from "@hono/swagger-ui";
 import auth from "../src/route/auth.route";
 import user from "../src/route/user.route";
 import { swaggerConfig } from "../src/config/swagger";
+import { env } from "../src/config/env";
 
 export const runtime = "edge";
 
 const app = new Hono();
 
+// CORS configuration
+const corsOptions = {
+  origin: env.ALLOWED_ORIGINS,
+  allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  credentials: true,
+  maxAge: 86400, // 24 hours
+};
+
 // Middleware
 app.use("*", logger());
-app.use("*", cors());
+app.use("*", cors(corsOptions));
 
 // Swagger UI
 app.get("/docs", swaggerUI({ url: "/api-docs" }));
