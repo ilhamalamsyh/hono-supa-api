@@ -1,4 +1,18 @@
 {
   "version": 2,
-  "routes": [{ "src": "/(.*)", "dest": "api/index.ts" }]
+  "functions": {
+    "api/index.ts": {
+      "runtime": "edge"
+    }
+  },
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.ts" }],
+  "git": {
+    "deploymentEnabled": {
+      "master": true,
+      "preview": true
+    }
+  },
+  "env": {
+    "JWT_SECRET": "@jwt_secret"
+  }
 }
