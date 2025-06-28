@@ -4,7 +4,7 @@
   "description": "Chat API using Hono and Supabase",
   "main": "api/index.ts",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/server.ts",
     "dev:server": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/index.js"
