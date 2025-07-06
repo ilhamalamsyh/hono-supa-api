@@ -15,7 +15,7 @@ export const swaggerConfig = {
       description: "Development server",
     },
     {
-      url: "https://your-project-name.vercel.app",
+      url: "https://hono-supa-api.vercel.app/",
       description: "Production server (replace with your actual Vercel URL)",
     },
   ],
