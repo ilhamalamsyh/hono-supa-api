@@ -40,7 +40,7 @@ A modern chat API built with Hono, TypeScript, and Supabase.
    SUPABASE_URL=your_supabase_url
    SUPABASE_ANON_KEY=your_supabase_anon_key
    JWT_SECRET=your_jwt_secret_key
-   ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080,https://yourdomain.com
+   ALLOWED_ORIGINS=http://localhost:4321,http://localhost:3000
    ```
 
    **CORS Configuration:**

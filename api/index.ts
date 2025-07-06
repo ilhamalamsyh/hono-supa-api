@@ -10,26 +10,8 @@ export const runtime = "edge";
 
 const app = new Hono();
 
-// Handle OPTIONS requests for CORS preflight
-app.options("*", (c) => {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "Content-Type, Authorization, X-Requested-With, Accept",
-      "Access-Control-Allow-Credentials": "true",
-      "Access-Control-Max-Age": "86400",
-    },
-  });
-});
-
-// Add CORS headers to all responses
+// Simple CORS middleware - allow all origins
 app.use("*", async (c, next) => {
-  await next();
-
-  // Add CORS headers to response
   c.header("Access-Control-Allow-Origin", "*");
   c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   c.header(
@@ -37,7 +19,12 @@ app.use("*", async (c, next) => {
     "Content-Type, Authorization, X-Requested-With, Accept"
   );
   c.header("Access-Control-Allow-Credentials", "true");
-  c.header("Access-Control-Max-Age", "86400");
+
+  if (c.req.method === "OPTIONS") {
+    return c.text("");
+  }
+
+  await next();
 });
 
 // Simple logging middleware
