@@ -16,25 +16,34 @@ app.use("*", async (c, next) => {
   const origin = c.req.header("Origin");
   const allowedOrigins = env.ALLOWED_ORIGINS;
 
-  // Check if origin is allowed
-  const isAllowed =
-    allowedOrigins.includes("*") || (origin && allowedOrigins.includes(origin));
+  // Debug logging
+  console.log("🔍 CORS Debug:");
+  console.log("  Origin:", origin);
+  console.log("  Allowed Origins:", allowedOrigins);
+  console.log("  Request Method:", c.req.method);
+  console.log("  Request URL:", c.req.url);
 
-  if (isAllowed) {
-    c.header("Access-Control-Allow-Origin", origin || "*");
+  // Always set CORS headers for now (temporary fix)
+  if (origin) {
+    c.header("Access-Control-Allow-Origin", origin);
+    console.log("  ✅ CORS header set to origin:", origin);
+  } else {
+    c.header("Access-Control-Allow-Origin", "*");
+    console.log("  ✅ CORS header set to *");
   }
 
   c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   c.header(
     "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With"
+    "Content-Type, Authorization, X-Requested-With, Accept"
   );
   c.header("Access-Control-Allow-Credentials", "true");
   c.header("Access-Control-Max-Age", "86400");
 
   // Handle preflight requests
   if (c.req.method === "OPTIONS") {
-    return c.text("");
+    console.log("  📋 Preflight request handled");
+    return new Response(null, { status: 204 });
   }
 
   await next();
