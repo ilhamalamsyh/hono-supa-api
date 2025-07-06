@@ -12,7 +12,17 @@ const app = new Hono();
 
 // Simple CORS middleware - allow all origins
 app.use("*", async (c, next) => {
-  c.header("Access-Control-Allow-Origin", "*");
+  const requestOrigin = c.req.header("Origin");
+  const allowedOrigins = env.ALLOWED_ORIGINS;
+
+  const isAllowed =
+    allowedOrigins.includes("*") ||
+    allowedOrigins.includes(requestOrigin ?? "");
+
+  if (isAllowed && requestOrigin) {
+    c.header("Access-Control-Allow-Origin", requestOrigin);
+  }
+
   c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   c.header(
     "Access-Control-Allow-Headers",

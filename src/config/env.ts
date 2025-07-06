@@ -4,7 +4,7 @@ export const env = {
   SUPABASE_URL: process.env.SUPABASE_URL,
   SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
   JWT_SECRET: process.env.JWT_SECRET,
-  ALLOWED_ORIGINS: ["*"], // Hard-coded to allow all origins
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS?.split(",") ?? ["*"],
 } as const;
 
 // Validate required environment variables
