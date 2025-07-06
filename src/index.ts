@@ -11,28 +11,10 @@ import { join } from "path";
 
 const app = new Hono();
 
-// Manual CORS middleware compatible with Vercel Edge Runtime
+// Simple CORS middleware for Vercel Edge Runtime
 app.use("*", async (c, next) => {
-  // Add CORS headers
-  const origin = c.req.header("Origin");
-  const allowedOrigins = env.ALLOWED_ORIGINS;
-
-  // Debug logging
-  console.log("🔍 CORS Debug:");
-  console.log("  Origin:", origin);
-  console.log("  Allowed Origins:", allowedOrigins);
-  console.log("  Request Method:", c.req.method);
-  console.log("  Request URL:", c.req.url);
-
-  // Always set CORS headers for now (temporary fix)
-  if (origin) {
-    c.header("Access-Control-Allow-Origin", origin);
-    console.log("  ✅ CORS header set to origin:", origin);
-  } else {
-    c.header("Access-Control-Allow-Origin", "*");
-    console.log("  ✅ CORS header set to *");
-  }
-
+  // Set CORS headers for all requests
+  c.header("Access-Control-Allow-Origin", "*");
   c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   c.header(
     "Access-Control-Allow-Headers",
@@ -43,7 +25,6 @@ app.use("*", async (c, next) => {
 
   // Handle preflight requests
   if (c.req.method === "OPTIONS") {
-    console.log("  📋 Preflight request handled");
     return new Response(null, { status: 204 });
   }
 
