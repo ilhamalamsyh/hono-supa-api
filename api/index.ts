@@ -10,7 +10,7 @@ export const runtime = "edge";
 
 const app = new Hono();
 
-// Simple CORS middleware - allow all origins
+// ✅ CORS Middleware
 app.use("*", async (c, next) => {
   const requestOrigin = c.req.header("Origin");
   const allowedOrigins = env.ALLOWED_ORIGINS;
@@ -31,13 +31,13 @@ app.use("*", async (c, next) => {
   c.header("Access-Control-Allow-Credentials", "true");
 
   if (c.req.method === "OPTIONS") {
-    return c.text("");
+    return c.text(""); // ✅ Tangani preflight
   }
 
   await next();
 });
 
-// Simple logging middleware
+// Logging middleware (opsional)
 app.use("*", async (c, next) => {
   const start = Date.now();
   await next();
@@ -45,16 +45,14 @@ app.use("*", async (c, next) => {
   console.log(`${c.req.method} ${c.req.url} - ${end - start}ms`);
 });
 
-// Swagger UI
+// Swagger
 app.get("/docs", swaggerUI({ url: "/api-docs" }));
 app.get("/api-docs", (c) => c.json(swaggerConfig));
 
-// API routes with /api prefix
+// API Routes
 const api = new Hono();
 api.route("/auth", auth);
 api.route("/user", user);
-
-// Mount API routes under /api
 app.route("/api", api);
 
 // Health check
@@ -62,7 +60,9 @@ app.get("/", (c) =>
   c.json({ message: "API is running - Hono JS Chat API yuhuu" })
 );
 
+// ✅ Exports untuk semua method HTTP
 export const GET = handle(app);
 export const POST = handle(app);
 export const PUT = handle(app);
 export const DELETE = handle(app);
+export const OPTIONS = handle(app); // ⬅️ Tambahkan ini
