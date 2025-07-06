@@ -1,7 +1,5 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { cors } from "hono/cors";
-import { logger } from "hono/logger";
 import { swaggerUI } from "@hono/swagger-ui";
 import auth from "../src/route/auth.route";
 import user from "../src/route/user.route";
@@ -12,18 +10,43 @@ export const runtime = "edge";
 
 const app = new Hono();
 
-// CORS configuration
-const corsOptions = {
-  origin: env.ALLOWED_ORIGINS,
-  allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  credentials: true,
-  maxAge: 86400, // 24 hours
-};
+// Manual CORS middleware compatible with Vercel Edge Runtime
+app.use("*", async (c, next) => {
+  // Add CORS headers
+  const origin = c.req.header("Origin");
+  const allowedOrigins = env.ALLOWED_ORIGINS;
 
-// Middleware
-app.use("*", logger());
-app.use("*", cors(corsOptions));
+  // Check if origin is allowed
+  const isAllowed =
+    allowedOrigins.includes("*") || (origin && allowedOrigins.includes(origin));
+
+  if (isAllowed) {
+    c.header("Access-Control-Allow-Origin", origin || "*");
+  }
+
+  c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  c.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+  c.header("Access-Control-Allow-Credentials", "true");
+  c.header("Access-Control-Max-Age", "86400");
+
+  // Handle preflight requests
+  if (c.req.method === "OPTIONS") {
+    return c.text("");
+  }
+
+  await next();
+});
+
+// Simple logging middleware
+app.use("*", async (c, next) => {
+  const start = Date.now();
+  await next();
+  const end = Date.now();
+  console.log(`${c.req.method} ${c.req.url} - ${end - start}ms`);
+});
 
 // Swagger UI
 app.get("/docs", swaggerUI({ url: "/api-docs" }));
